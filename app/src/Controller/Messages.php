@@ -2,6 +2,7 @@
 
 namespace App\Controller;
 
+use App\Service\Messages as ServiceMessages;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
@@ -12,7 +13,7 @@ class Messages
     public function messages(): Response
     {
         try {
-            $response = ['messages' => []];
+            $response = ServiceMessages::getMessages();
             return new JsonResponse(data: $response, status: Response::HTTP_OK);
         } catch (\Throwable $th) {
             // TODO: add logger
