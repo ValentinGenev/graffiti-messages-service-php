@@ -3,11 +3,12 @@
 namespace App\Controller;
 
 use App\Service\Messages as ServiceMessages;
+use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 
-class Messages
+class Messages extends AbstractController
 {
     #[Route('/messages', name: 'messages', methods: 'GET')]
     public function messages(): Response

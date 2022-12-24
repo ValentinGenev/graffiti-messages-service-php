@@ -2,7 +2,9 @@
 
 namespace App\Interface;
 
-interface Response
+use JsonSerializable;
+
+interface Response extends JsonSerializable
 {
     function setSuccess(bool $flag);
     function setError(Error $error);

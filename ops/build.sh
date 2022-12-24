@@ -1,3 +1,3 @@
-# TODO: fill .env file with secrets
 cp .env.default .env
+cp .env.default ./app/.env
 docker-compose up

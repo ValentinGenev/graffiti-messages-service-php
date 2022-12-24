@@ -2,15 +2,15 @@
 
 namespace App\DTO;
 
+use App\Entity\Message;
 use App\Interface\Response;
 use App\Interface\Error;
-use App\Interface\Message;
 
 class Messages implements Response
 {
     private bool $success;
     private ?Error $error;
-    private array $messages;
+    private array $messages = [];
 
     public function setSuccess(bool $flag)
     {
@@ -24,6 +24,11 @@ class Messages implements Response
 
     public function addMessages(Message ...$messages)
     {
-        array_push($this->messages, $messages);
+        array_push($this->messages, ...$messages);
+    }
+
+    public function jsonSerialize(): mixed
+    {
+        return get_object_vars($this);
     }
 }
