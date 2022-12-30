@@ -1,34 +1,35 @@
-version: "2"
+version: "3"
 
 services:
-  composer-installation:
+  composer:
     image: composer:2.4
+    container_name: composer-installation
     command: "composer install"
     volumes:
       - ./app:/app
     restart: on-failure
 
-  # TODO: figure ot how to connect the Symphony app with the database
-  # database:
-  #   image: mysql:8.0
-  #   container_name: graffiti-database
-  #   command: --default-authentication-plugin=mysql_native_password
-  #   environment:
-  #     MYSQL_ROOT_PASSWORD: ${DB_ROOT_PASSWORD}
-  #     MYSQL_DATABASE: ${DB_NAME}
-  #     MYSQL_USER: ${DB_USER}
-  #     MYSQL_PASSWORD: ${DB_PASSWORD}
-  #   ports:
-  #     - "${DB_PORT}:3306"
-  #   volumes:
-  #     - dbdata:/var/lib/mysql
-  #   restart: on-failure
+  database:
+    image: mysql:${DB_VERSION}
+    container_name: messages-database
+    command: --default-authentication-plugin=mysql_native_password
+    environment:
+      MYSQL_ROOT_PASSWORD: ${DB_ROOT_PASSWORD}
+      MYSQL_DATABASE: ${DB_NAME}
+      MYSQL_USER: ${DB_USER}
+      MYSQL_PASSWORD: ${DB_PASSWORD}
+    ports:
+      - "${DB_PORT}:3306"
+    volumes:
+      - dbdata:/var/lib/mysql
+    restart: on-failure
 
   php:
     depends_on:
-      - composer-installation
-    image: php:8-alpine
-    container_name: graffiti-php-server
+      - composer
+      - database
+    build: .
+    container_name: messages-server
     command: "php -S 0.0.0.0:8000 /app/public/index.php"
     ports:
       - "${REST_API_PORT}:8000"

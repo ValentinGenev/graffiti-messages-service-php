@@ -6,4 +6,7 @@ A simple post message REST API for the Graffiti project
 2. `./ops/build.sh`;
 
 ## Development
-- change database host to `DB_HOST=localhost`;
+To persist changes in the Entities models in the database run
+```sh
+php bin/console make:migration
+```
