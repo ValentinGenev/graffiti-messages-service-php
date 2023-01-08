@@ -17,11 +17,8 @@ class Message implements JsonSerializable
     #[ORM\Column]
     private ?int $id = null;
 
-    #[ORM\Column(type: Types::DATETIMETZ_IMMUTABLE)]
-    private ?\DateTimeInterface $post_date = null;
-
-    #[ORM\Column(length: 255, nullable: true)]
-    private ?string $poster_id = null;
+    #[ORM\Column(type: Types::DATETIME_MUTABLE)]
+    private ?\DateTime $post_date = null;
 
     #[ORM\Column(type: Types::TEXT)]
     private ?string $message = null;
@@ -39,26 +36,14 @@ class Message implements JsonSerializable
         return $this->id;
     }
 
-    public function getPostDate(): ?\DateTimeInterface
+    public function getPostDate(): ?\DateTime
     {
         return $this->post_date;
     }
 
-    public function setPostDate(\DateTimeInterface $postDate): self
+    public function setPostDate(\DateTime $postDate): self
     {
         $this->post_date = $postDate;
-
-        return $this;
-    }
-
-    public function getPosterId(): ?string
-    {
-        return $this->poster_id;
-    }
-
-    public function setPosterId(?string $posterId): self
-    {
-        $this->poster_id = $posterId;
 
         return $this;
     }

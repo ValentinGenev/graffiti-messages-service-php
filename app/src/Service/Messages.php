@@ -4,6 +4,7 @@ namespace App\Service;
 
 use App\DTO\Messages as DTOMessages;
 use App\Entity\Message;
+use DateTime;
 use Doctrine\Persistence\ManagerRegistry;
 use Psr\Log\LoggerInterface;
 
@@ -24,13 +25,14 @@ class Messages {
 
         $entity = new Message();
         $entity->setMessage($message);
+        $entity->setPostDate(new DateTime('now'));
 
         $this->registry->persist($entity);
+        $this->registry->flush();
     }
 
     public function getMessages(): DTOMessages {
         $this->logger->info('Called "getMessages".');
-        // TODO: switch the following dummy with real data from the database
 
         $messages = $this->messageRepository->findAll();
 

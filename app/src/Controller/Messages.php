@@ -27,7 +27,10 @@ class Messages extends AbstractController
             $this->messagesService->postMessage('My test message');
             $response = ['success' => true];
             return new JsonResponse(data: $response, status: Response::HTTP_OK);
+
+            // TODO: catch custom exception passed from within the service
         } catch (\Throwable $th) {
+            $this->logger->error($th->getMessage(), $th->getTrace());
             return new JsonResponse(
                 data: ['error' => 'ERROR_01'],
                 status: Response::HTTP_INTERNAL_SERVER_ERROR
